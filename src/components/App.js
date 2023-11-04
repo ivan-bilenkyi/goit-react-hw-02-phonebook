@@ -1,7 +1,11 @@
 import { Component } from 'react';
-import { ContactForm } from './ContactForm';
-import { Filter } from './Filter';
-import { ContactList } from './ContactList';
+import { Layout } from './Layout';
+import { PhonebookForm } from './PhonebookForm/PhonebookForm';
+import { ContactFilter } from './Contacts/ContactFilter';
+import { ContactList } from './Contacts/ContactList';
+import { GlobalStyle } from './GlobalStyle';
+
+// import { nanoid } from 'nanoid';
 
 export class App extends Component {
   state = {
@@ -12,46 +16,40 @@ export class App extends Component {
       { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
     ],
     filter: '',
-    name: '',
-    number: '',
-  };
-  handleChange = evt => {
-    const { name, value } = evt.target;
-    this.setState({ [name]: value });
   };
 
-  handleSubmit = evt => {
-    evt.preventDefault();
-    const { name, number } = this.state;
-    console.log(`Name: ${name}, Number: ${number}`);
-    !this.state.contacts.some(contact => contact.name === name) &&
-      this.setState(prevState => ({
-        contacts: [...prevState.contacts, { name, number }],
-      }));
-    console.log(this.state);
-    this.props.onSubmit({ ...this.state });
-    this.reset();
+  findContacts = value => {
+    this.setState({
+      filter: value,
+    });
   };
 
-  reset = () => {
-    this.setState({ ...this.state });
+  deleteContact = contactId => {
+    console.log('delete', contactId);
+    this.setState(prevState => {
+      return {
+        contacts: prevState.contacts.filter(item => item.id !== contactId),
+      };
+    });
   };
+
   render() {
-    const { name, number } = this.state;
+    const { contacts, filter } = this.state;
+    const visibleContacts = contacts.filter(({ name }) => {
+      const hasName = name.toLowerCase().includes(filter.toLowerCase());
+      return hasName;
+    });
     return (
-      <div>
+      <Layout>
         <h1>Phonebook</h1>
-        <ContactForm
-          name={name}
-          number={number}
-          handleChange={this.handleChange}
-          handleSubmit={this.handleSubmit}
-        />
-
+        <PhonebookForm />
         <h2>Contacts</h2>
-        <Filter />
-        <ContactList />
-      </div>
+        <ContactFilter filter={filter} onFindContacts={this.findContacts} />
+        {visibleContacts.length > 0 && (
+          <ContactList items={visibleContacts} onDelete={this.deleteContact} />
+        )}
+        <GlobalStyle />
+      </Layout>
     );
   }
 }
