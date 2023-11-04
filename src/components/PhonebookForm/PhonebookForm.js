@@ -1,7 +1,7 @@
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
-import { Form, Field, FormGroup, ErrorMessage } from './PhonebookForm.styled';
+import { Form, Field, FormGroup } from './PhonebookForm.styled';
 
 const SignupSchema = Yup.object().shape({
   name: Yup.string().required('Required'),
