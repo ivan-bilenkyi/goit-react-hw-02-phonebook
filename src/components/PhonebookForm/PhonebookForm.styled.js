@@ -1,8 +1,4 @@
-import {
-  Form as FormikForm,
-  Field as FormikField,
-  ErrorMessage as FormikError,
-} from 'formik';
+import { Form as FormikForm, Field as FormikField } from 'formik';
 import styled from 'styled-components';
 
 export const Form = styled(FormikForm)`
@@ -22,8 +18,3 @@ export const FormGroup = styled.label`
   flex-direction: column;
   gap: 4px;
 `;
-
-// export const ErrorMessage = styled(FormikError)`
-//   color: ${p => p.theme.colors.red};
-//   font-size: 14px;
-// `;
