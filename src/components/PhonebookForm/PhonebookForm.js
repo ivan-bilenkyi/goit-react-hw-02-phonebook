@@ -1,16 +1,24 @@
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+import { AiOutlineUserAdd } from 'react-icons/ai';
 
-import { Form, Field, FormGroup } from './PhonebookForm.styled';
+import {
+  Form,
+  Field,
+  FormGroup,
+  ErrorMessage,
+  Button,
+} from './PhonebookForm.styled';
 
 const SignupSchema = Yup.object().shape({
   name: Yup.string().required('Required'),
-  number: Yup.number().required('Required'),
+  number: Yup.string().required('Required'),
 });
 
-export const PhonebookForm = () => {
+export const PhonebookForm = ({ onAdd }) => {
   return (
     <div>
+      <h1>Phonebook</h1>
       <Formik
         initialValues={{
           name: '',
@@ -18,7 +26,7 @@ export const PhonebookForm = () => {
         }}
         validationSchema={SignupSchema}
         onSubmit={(values, actions) => {
-          console.log(values);
+          onAdd(values);
           actions.resetForm();
         }}
       >
@@ -26,14 +34,18 @@ export const PhonebookForm = () => {
           <FormGroup>
             Name
             <Field name="name" />
+            <ErrorMessage name="name" component="span" />
           </FormGroup>
 
           <FormGroup>
             Number
             <Field name="number" />
+            <ErrorMessage name="number" component="span" />
           </FormGroup>
 
-          <button type="submit">Submit</button>
+          <Button type="submit">
+            <AiOutlineUserAdd />
+          </Button>
         </Form>
       </Formik>
     </div>

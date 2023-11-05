@@ -15,20 +15,12 @@ export const GlobalStyle = createGlobalStyle`
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
       monospace;
   }
-
-  ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  }
-
-  img {
-    display: block;
-    max-width: 100%;
-    object-fit: cover;
-  }
   
   h1, h2 {
-    margin: 0;
+    margin: 0 0 14px;
+  }
+
+  p{
+    max-width: 320px;
   }
 `;

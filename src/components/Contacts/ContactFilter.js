@@ -1,12 +1,14 @@
+import { Input } from './ContactList.styled';
+
 export const ContactFilter = ({ filter, onFindContacts }) => {
   return (
     <div>
-      <input
+      <Input
         type="text"
         value={filter}
         onChange={evt => onFindContacts(evt.target.value)}
         placeholder="find contact"
-      ></input>
+      ></Input>
     </div>
   );
 };

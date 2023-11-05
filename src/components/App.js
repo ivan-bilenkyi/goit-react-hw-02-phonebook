@@ -1,7 +1,8 @@
 import { Component } from 'react';
+import { nanoid } from 'nanoid';
 import { Layout } from './Layout';
 import { PhonebookForm } from './PhonebookForm/PhonebookForm';
-import { ContactFilter } from './Contacts/ContactFilter';
+// import { ContactFilter } from './Contacts/ContactFilter';
 import { ContactList } from './Contacts/ContactList';
 import { GlobalStyle } from './GlobalStyle';
 
@@ -33,21 +34,48 @@ export class App extends Component {
     });
   };
 
+  addContact = newContact => {
+    if (this.state.contacts.some(contact => contact.name === newContact.name)) {
+      alert(`${newContact.name} is alredy in contacts`);
+      return;
+    }
+    const contact = {
+      ...newContact,
+      id: nanoid(),
+    };
+    this.setState(prevState => {
+      return {
+        contacts: [...prevState.contacts, contact],
+      };
+    });
+  };
+
   render() {
     const { contacts, filter } = this.state;
     const visibleContacts = contacts.filter(({ name }) => {
       const hasName = name.toLowerCase().includes(filter.toLowerCase());
       return hasName;
     });
+
     return (
       <Layout>
-        <h1>Phonebook</h1>
-        <PhonebookForm />
-        <h2>Contacts</h2>
-        <ContactFilter filter={filter} onFindContacts={this.findContacts} />
-        {visibleContacts.length > 0 && (
-          <ContactList items={visibleContacts} onDelete={this.deleteContact} />
-        )}
+        <PhonebookForm onAdd={this.addContact} />
+        <div>
+          <h2>Contacts</h2>
+          {visibleContacts.length > 0 ? (
+            <ContactList
+              items={visibleContacts}
+              onDelete={this.deleteContact}
+              filter={filter}
+              onFindContacts={this.findContacts}
+            />
+          ) : (
+            <p>
+              Your contact list is empty. Add a new contact by entering a name
+              and phone number.
+            </p>
+          )}
+        </div>
         <GlobalStyle />
       </Layout>
     );
