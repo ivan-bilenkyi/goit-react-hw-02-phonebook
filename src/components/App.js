@@ -26,7 +26,6 @@ export class App extends Component {
   };
 
   deleteContact = contactId => {
-    console.log('delete', contactId);
     this.setState(prevState => {
       return {
         contacts: prevState.contacts.filter(item => item.id !== contactId),
@@ -62,19 +61,12 @@ export class App extends Component {
         <PhonebookForm onAdd={this.addContact} />
         <div>
           <h2>Contacts</h2>
-          {visibleContacts.length > 0 ? (
-            <ContactList
-              items={visibleContacts}
-              onDelete={this.deleteContact}
-              filter={filter}
-              onFindContacts={this.findContacts}
-            />
-          ) : (
-            <p>
-              Your contact list is empty. Add a new contact by entering a name
-              and phone number.
-            </p>
-          )}
+          <ContactList
+            items={visibleContacts}
+            onDelete={this.deleteContact}
+            filter={filter}
+            onFindContacts={this.findContacts}
+          />
         </div>
         <GlobalStyle />
       </Layout>
